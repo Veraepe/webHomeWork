@@ -1,0 +1,1 @@
+mvcpro3文件夹中IsIfExistUserName和Register文件夹中的java文件是servlet，放错文件夹了，应该在controller里面
