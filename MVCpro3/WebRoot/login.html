@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<style>
+		*{
+		    box-sizing: border-box;//一定要设置哦~
+		}
+		
+		body{
+			background-color: antiquewhite ;
+		}
+		
+		
+		#title{
+			font-size:40px;
+			font-style: italic;
+			letter-spacing:10px;
+			font-family:"felix titling";
+			font-weight: bold;
+		}
+		
+		#login{
+			background-color:ivory;
+			margin-top: 100px;
+			margin-left: auto;
+			margin-right: auto;
+			width: 50%;
+			text-align: center;
+			padding-bottom:20px;
+			padding-left: 10px;
+			padding-right: 10px;
+			padding-top: 12px;
+		}
+		
+		#login h1{
+			font-size: 80px;
+			letter-spacing: 3px;
+			font-family:"felix titling";
+			margin-top: 10px;
+		}
+		
+		#login p{
+			font-size: 30px;
+			height: 40px;
+			letter-spacing: 1px;
+			font-family: "century gothic";
+		}
+		
+		#login input:focus{
+			border: 5px solid white;
+			background-color: lightblue;
+			font-size: 30px;
+		}
+		
+		.yee{
+			 
+			 border: 2px solid lightcoral;
+			  border-radius: 4px;
+			  height: 40px;
+			  width: 30%;
+			  font-size: 20px;
+		}
+		
+		.yee2{
+			border: 2px solid lightcoral;
+			 border-radius: 4px;
+			 height: 40px;
+			 width: 20%;
+			 font-size: 20px;
+		}
+		
+		.yee3{
+			background-color: mistyrose;
+			  border: none;
+			  color: black;
+			  padding: 16px 70px;
+			  text-decoration: none;
+			  margin: 2px 2px;
+			  cursor: pointer;
+			  font-family: "felix titling";
+			  font-weight: bold;
+			  font-size: 20px;
+			  letter-spacing: 1px;
+			  margin-top: 15px;
+		}
+		
+		#errorMsg{
+			color:red;
+			margin: 0px;
+			font-size: 10px;
+		}
+		
+		#register{
+			background-color:ivory;
+			margin-top: 30px;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 50px;
+			width: 50%;
+			text-align: center;
+			padding-bottom:50px;
+			padding-left: 30px;
+			padding-right: 30px;
+			padding-top: 12px;
+			border-radius: 5px;
+		}
+		
+		#register p{
+			text-align: left;
+			font-family: "宋体";
+			font-weight: bold;
+			letter-spacing: 1px;
+			font-size: 35px;
+			color: black;
+			margin-left: 20px;
+		}
+		
+		#register a{
+			text-align: center;
+			font-family: "微软雅黑";
+			font-size: 20px;
+			font-weight: bold;
+			text-decoration: none;
+			color: lightcoral;
+			background: mistyrose;
+			padding: 20px;
+			letter-spacing: 2px;
+		}
+		
+		#register a:hover{
+			color: mistyrose;
+			background: lightcoral;
+		}
+		
+	</style>
+	<script type="text/javascript">
+			window.onload=function(){
+				function ajaxCheckLogin(){
+				var xmlHttp;
+				if(window.XMLHttpRequest)
+				{
+					xmlHttp=new XMLHttpRequest();
+				}
+				else
+				{
+					xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+				}
+			
+				var userName=document.getElementById("userName").value;//id和name在表单中要一样
+				var password=document.getElementById("password").value;
+				var verifyCode=document.getElementById("verifyCode").value;
+				console.log(userName);
+				console.log(verifyCode);
+				if(userName==""||password==""||verifyCode=="")
+				{
+					alert("请不要输入空的数据哦");
+					return;
+				}
+				
+				
+				var data="userName="+userName+"&password="+password+"&verifyCode="+verifyCode;
+				
+				if(document.getElementById("check").checked)
+				{
+						data+="&autoLogin=true";
+				}
+				
+				xmlHttp.open("POST","login.do",true);
+				xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+				xmlHttp.send(data);
+				
+				xmlHttp.onreadystatechange=function(){
+				
+					if(xmlHttp.readyState==4 && xmlHttp.status==200)
+					{
+						var response=xmlHttp.responseText;
+						var json=JSON.parse(response);
+						
+						if(json.code==0)
+						{
+							window.location.href="main.jsp";
+						}
+						else
+						{
+							//显示错误信息
+							document.getElementById("errorMsg").innerText=json.info;
+						}
+					}
+				}
+				}
+				
+				var submit=document.getElementById("submit");
+				submit.onclick=function(){
+						ajaxCheckLogin();
+				}
+				
+				var img=document.getElementById("verifyimg");
+				img.onclick=function(){
+					img.src="servlet/CreateImage?t="+Math.random();	
+				}
+			
+			
+			};	
+		</script>
+	<body>
+		<p id="title">Welcome&nbsp;to&nbsp;myworld</p>		
+		<div id="login">
+			<form action="#" method="post">
+				<h1>Welcome</h1>
+				<p>IdStr&nbsp;&nbsp;&nbsp;:
+				<input class="yee" type="text" name="userName" id="userName" value="">
+				</p>
+				<p>Password:
+				<input class="yee" type="password" name="password" id="password" value=""/>
+				</p>
+				<p>
+				<input class="yee2" type="text" name="verifyCode" id="verifyCode" value=""/>
+				<img src="servlet/CreateImage" name="verifyimg" id="verifyimg" title="click to change">
+				</p>
+				<p>
+					<input type="checkbox" id="check" name="freelogin" value="Free Login in week">
+					Free Login in week
+				</p>
+				<a id="errorMsg"></a>
+				<p>
+				<input class="yee3" type="button" id="submit" value="login">
+				</p>
+				
+			</form>
+		</div>
+		
+		<div id="register">
+			<p>还没注册？！</p>
+			<br>
+			<a href="register.html">点我去注册</a>
+		</div>
+		
+	</body>
+</html>

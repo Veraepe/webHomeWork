@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	<style type="text/css">
+		*{
+		    box-sizing: border-box;
+			margin: 0px;
+		}
+		
+		a{
+		text-decoration: none;
+		}
+		
+		#header{
+			background: #D5CFE1;
+			display: -ms-flexbox;
+			display: flex;
+			-ms-flex-wrap: wrap; 
+			flex-wrap: wrap;
+		}
+		
+		#header a{
+			padding: 5px 20px;
+			margin: 0px;
+			font-size: 20px;
+			font-weight: bold;
+			font-family: "宋体";
+			letter-spacing:10px;
+			color:#464655;
+		}
+		
+		#header a:hover{	
+			color: white;
+			font-weight: bold;
+		}
+		
+		#logo{
+			width:  60px;
+			height: 25px;
+			margin-left: 0px;
+			
+		}
+		
+		#left{
+			display: flex;
+			/*
+			打通一下
+			*/
+			flex:70%;
+			color:#464655;
+			
+		}
+		
+		#right{
+			display: flex;
+			flex:20%;
+		}
+		
+	
+		
+		#right a input{
+			height: 30px;
+			width: 200px;
+			margin-right: 0px;
+			border: 0px;
+			border-radius: 2px;
+		}
+		
+		#title{
+			width: 100%;
+			background: #EDDFEF;
+			height: 50px;
+			text-align: center;
+			color: white;
+			font-weight: bold;
+			font-size: 40px;
+			letter-spacing: 5px;
+			font-family: "felix titling";
+		}
+		
+		#mainbox{
+			margin-top: 10px;
+			width: 100%;
+			height: 700px;
+			padding: 5px;
+			background: #EDDFEF;
+		}
+		
+		
+		
+		#leftside{
+			float: left;
+			width: 10%;
+			background: #464655;
+			margin-left: 70px;
+			margin-top: 50px;
+		}
+		
+		#middle{
+			float: left;
+			width: 50%;
+			padding: 8px;
+			background: #464655;
+			margin-left: 10px;
+			margin-top: 50px;
+		}
+		
+		#rightside{
+			float: left;
+			width: 30%;
+			background: #464655;
+			margin-left: 10px;
+			margin-top: 40px;
+		}
+		
+		.msgtext{
+			list-style-type: none;			    
+			border: 3px solid #eee;
+		    margin: 0;
+		    padding: 0;
+		    -webkit-transition: 0.3s;
+			transition: 0.3s;
+			color: white;
+		}
+		
+		.msginput{
+			list-style-type: none;
+			border: 3px solid #eee;
+			margin: 0;
+			padding: 0;
+			-webkit-transition: 0.3s;
+			transition: 0.3s;
+			color: white;
+		}
+		
+		.inputOne{
+			height: 30px;
+			width: 80%;
+			text-align: left;
+			color: #D5CFE1;
+			background: white;
+			border: none;
+			font-size: 20px;
+		}
+		
+		.inputOne:focus{
+			border: 2px solid lightblue;
+		}
+		
+		#telephone{
+			height: 30px;
+			width: 60%;
+			text-align: left;
+			color: #D5CFE1;
+			background: white;
+			border: none;
+			font-size: 20px;
+		}
+		
+		#telephone:focus{
+			border: 2px solid lightblue;
+		}
+		
+		#getTeleNum{
+			height: 30px;
+			width: 90px;
+			font-size: 19px;
+			background: #EDDFEF;
+			color:#464655;
+			border: none;
+			letter-spacing: 5px;
+		}
+		
+		#getTeleNum:hover{
+			background: #464655;
+			color:#EDDFEF;
+		}
+		
+		#province{
+			height: 30px;
+			width: 30%;
+			font-size: 19px;
+			border: 2px solid #EDDFEF;
+			color:#464655;
+			font-weight: bold;
+		}
+		
+		#city{
+			height: 30px;
+			width: 30%;
+			font-size: 19px;
+			border: 2px solid #EDDFEF;
+			color:#464655;
+			font-weight: bold;
+		}
+		
+		.msginput:hover{
+			box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2);
+		}
+		
+		.msgtext:hover{
+			 box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2);
+		}
+		
+		.msgtext li {
+		    border-bottom: 1px solid #eee;
+		    padding: 20px;
+		    text-align: center;
+		}
+		.msginput li{
+		padding: 15px;
+		text-align: center;
+		}
+		
+		#button{
+			margin-top: 0px;
+			width: 100%;
+			padding: 5px;
+			text-align: center;
+			float: left;
+			margin: 10px 0px;
+			
+			
+		}
+		
+		#submit{
+			width: 20%;
+			height: 60px;
+			border: 0px;
+			text-align: center;
+			font-family: "宋体";
+			background: #D5CFE1;
+			color: #EEEEEE;
+			font-weight: bold;
+			font-size: 25px;
+			letter-spacing: 10px;
+		}
+		
+		#submit:hover{
+			color: #464655;
+			background: #EDDFEF;
+			font-size: 35px;
+		}
+		
+		@media only screen and (max-width: 600px) {
+		    mainbox{
+		        width: 100%;
+				height: 600px;
+		    }
+		}
+	</style>
+	
+	<script src="jquery-3.5.1.min.js"></script>
+	<script type="text/javascript">
+		var flag=true;
+		//window.onload=function(){
+		$(document).ready(function(){
+		function fillProvince()
+			{
+				$.ajax({
+					type:"post",
+					url:"QueryProvinceCity.do",
+					data:{},
+					dataType:"json",
+					success:function(response)
+					{
+						var provinceElement=document.getElementById("province");
+						provinceElement.options.length=0;
+						provinceElement.add(new Option("请选择省份",""));
+						for(var index=0;index<response.length;index++)
+						{
+							provinceElement.add(new Option(response[index].provinceName,response[index].provinceCode));
+						}
+					}
+				}
+				);
+			}
+			fillProvince();
+			//编写添加省份对于城市选项的函数
+			$("#province").change(function(e){
+				$("#city").empty();
+				$("#city").append($("<option>").val("").text("请选择城市"));
+				
+				if($(this).val()==""){//this是这个e也就是event
+					$("#provinceCitymsg").text("必须选择省份哦");
+					flag=false;
+					return;
+				}else{
+					$("#provinceCitymsg").text("-");
+					flag=true;
+				}
+				
+				var provinceCode=$("#province").val();
+				$.ajax({
+					type:"post",
+					url:"QueryProvinceCity.do",
+					data:{provinceCode,provinceCode},
+					dataType:"json",
+					success:function(response){
+						for(var index=0;response.length;index++)
+						{
+							var option=$("<option>").val(response[index].cityCode).text(response[index].cityName);
+							$("#city").append(option);
+						}
+					}
+				});//ajax
+			});
+			
+			//接下来是注册数据的返回
+			function funToData()
+			{
+				
+				var data={
+					userName:$("#userName").val(),password:$("#password").val(),telephone:$("#telephone").val()
+				,province:$("#province option:selected").text(),city:$("#city option:selected").text(),email:$("#email").val()
+				};
+				
+				$.ajax({
+					type:"post",
+					url:"Register.do",
+					data:data,
+					dataType:"json",
+					success:function(response){
+						if(response.code==0)
+						{
+							alert("注册成功!");
+							window.location.href="login.html";
+						}
+					}
+				});
+			}
+			
+			var submit=document.getElementById("submit");
+			submit.onclick=function(){
+				//alert($("#province option:selected").text());
+				if($("#userName").val()==""||$("#password").val()=="" || $("passwordagain").val()==""||$("#telphone").val()==""||$("#email").val()==""
+				||$("#province option:selected").text()=="请选择省份"
+				||$("#city option:selected").text()=="请选择城市"
+				||$("#password").val()!=$("#passwordagain").val()
+				)
+				{		
+					
+					console.log($("#city option:selected").text());
+					alert("提交失败哦");
+					return;
+				}
+				funToData();
+			}
+			
+			//检测功能
+			function testIsIfRight(num,value){
+				
+				switch(num)
+				{
+					case 1:
+					if(!(/^[a-zA-Z][a-zA-Z0-9_]{3,8}$/.test(value)) )
+						$("#userNamemsg").text("长度要4-8位哦,字母开头");
+					else
+						$("#userNamemsg").text("-");
+					break;
+					case 2:
+					if(!(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/.test(value)) )
+						$("#passwordmsg").text("必须包含大小写字母和数字的组合,长度8到16位");
+					else if($("#password").val()!=$("#passwordagain").val())
+						$("#passwordagainmsg").text("两次密码不一致!");
+					else
+						$("#passwordmsg").text("-");
+					break;
+					case 3:
+					if($("#password").val()!=$("#passwordagain").val())
+						$("#passwordagainmsg").text("两次密码不一致!");
+					else
+						$("#passwordagainmsg").text("-");
+					break;
+					case 5:
+					if(!(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value)) )
+						$("#emailmsg").text("邮箱格式不对");
+					else
+						$("#emailmsg").text("-");
+					break;
+					case 4:
+					if(!(/^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/.test(value)) )
+						$("#telephonemsg").text("您的格式不对哦");
+					else
+						$("#telephonemsg").text("-");
+					break;
+			}
+			}
+			
+			
+			//查重功能
+			function isifhavethis(value){
+					var data={userName:value};
+					$.ajax({
+						type:"post",
+						url:"IsIfExistUserName.do",
+						data:data,
+						dataType:"json",
+						success:function(response){
+							if(response.code!=0)
+							{
+								$("#userNamemsg").text("该用户已存在");
+							}
+						}
+					});
+			}
+			
+			$("#userName").change(function(){
+				
+				testIsIfRight(1,$("#userName").val());
+				isifhavethis($("#userName").val());
+			});
+			
+			$("#telephone").change(function(){
+				testIsIfRight(4,$("#telephone").val());
+			});
+			
+			$("#password").change(function(){
+				testIsIfRight(2,$("#password").val());
+			});
+			
+			$("#passwordagain").change(function(){
+				testIsIfRight(3,$("#passwordagain").val());
+			});
+			
+			$("#email").change(function(){
+				testIsIfRight(5,$("#email").val());
+			});
+			
+		});
+	</script>
+	
+	</head>
+	<body>
+		<div id="header">
+			
+		<div id="logo"></div>
+			
+		<div id="left">
+		<a><img src="Img/logo.png" id="logo"></img></a>
+			<a href="index.html">主页面</a>
+			<a href="#">新客访问</a>
+			<a href="login.html">登录</a>
+		</div>
+		
+		<div id="right">
+			<a><input id="search" type="text"/></a>
+		</div>	
+		</div>
+		
+		
+		<div id="title">REGISTER</div>
+		
+		<div id="mainbox">
+			<div id="leftside">
+				<ul class="msgtext">
+					<li>用户名</li>
+					<li>密码</li>
+					<li>确认密码</li>
+					<li>手机号</li>
+					<li>所在地</li>
+					<li>-</li>
+					<li>邮箱</li>
+					<li>-</li>
+				</ul>
+		</div>
+			
+		<div id="middle">
+			<ul class="msginput">
+				<li><input type="text" class="inputOne" id="userName" name="userName" value="请输入您的用户名"/></li>
+				<li><input type="password" class="inputOne" id="password" name="password"/></li>
+				<li><input type="password" class="inputOne" id="passwordagain" name="passwordagain"/></li>
+				<li>
+					<input type="text" id="telephone" name="telephone" value="请输入您的手机号"/>
+					<input type="button" id="getTeleNum" name="getTeleNum" value="获取"/>
+				</li>
+				<li>
+					<select id="province" name="province">
+						<option value="">请选择省份</option>
+					</select>
+				</li>
+				<li><select id="city" name="city">
+						<option value="">请选择城市</option>
+					</select></li>
+				<li><input type="text" class="inputOne" id="email" name="email" value="请输入您的邮箱"/></li>
+				<li>-</li>
+			</ul>
+		</div>
+			
+			<div id="rightside">
+				<ul class="msgtext">
+					<li id="userNamemsg">-</li>
+					<li id="passwordmsg">-</li>
+					<li id="passwordagainmsg">-</li>
+					<li id="telephonemsg">-</li>
+					<li id="provinceCitymsg">-</li>
+					<li>-</li>
+					<li id="emailmsg">-</li>
+					<li>-</li>
+				</ul>
+			</div>
+			
+			
+			
+			<div id="button">
+				<input type="button" name="submit" id="submit" value="提交" />
+			</div>
+			</div>
+			
+		
+		
+	</body>
+</html>
