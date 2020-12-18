@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>欢迎你</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1,shrink-to-fit=no">
+  <link rel="stylesheet" href="js/bootstrap-4.5.3-dist/css/bootstrap.min.css">
+  <script src="js/jquery-3.5.1.min.js"></script>
+  <script src="js/bootstrap-4.5.3-dist/popper.js/1.15.0/umd/popper.min.js"></script>
+  <script src="js/bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
+  <script src="js/json2.js"></script>
+  <style type="text/css">
+	
+  	body{
+		margin: 0px;
+		overflow-x: hidden;
+	}
+	
+	.bccolorOne{
+		background: #f1f6f9;
+	}
+	
+	.bccolorTwo{
+		background:#14274e;
+	}
+	
+	.bccolorThree{
+		background: #394867;
+	}
+	
+	.bccolorFour{
+		background: #9ba4b4;
+	}
+	
+	.colorOne{
+		color: #f1f6f9;
+	}
+	
+	.colorTwo{
+		color:#14274e;
+	}
+	
+	.colorThree{
+		color: #394867;
+	}
+	
+	.colorFour{
+		color: #9ba4b4;
+	}
+	
+	.fontOne{
+		font-family: "宋体"; 
+		letter-spacing:2px;
+		font-size: 20px;
+	}
+	
+	.fontTwo{
+		font-family: "微软雅黑";
+		letter-spacing: 8px;
+		font-weight: bold;
+		font-size: 50px;
+	}
+	
+	.fontThree{
+		font-family: "微软雅黑";
+		letter-spacing: 3px;
+		font-weight: bold;
+		font-size: 25px;
+	}
+	
+	.forHeaderButton{
+		height: 80%;
+	}
+	
+	dropdown{
+		display: none;
+	}
+	
+	dropdown:hover{
+		display: block;
+	}
+	
+	.carousel-inner img {
+	      width: 100%;
+		  height: 100%;
+	  }
+	
+	#introduceNav a{
+		color: #000000;
+	}
+	
+	#introduceNav a:hover{
+		 color: firebrick;
+	}
+	
+	li:hover
+	.dropdown-menu
+	{
+		display:block;
+	}
+  </style>
+  <script type="text/javascript">
+	  window.onload=function(){
+		/*
+		$.ajax({
+			type:"post",
+			url:"getCarouselContent.do",
+			data:{},
+			dataType:"json",
+			success:function(response)
+			{
+				doCarousel(response);
+			}
+		});*/
+		
+		
+		
+		//做导航的处理
+		$.ajax({
+			type:"post",
+			url:"getMenuContent.do",
+			data:{},
+			dataType:"json",
+			success:function(response)
+			{
+			doMenu(response);
+			}
+		
+		});
+
+		
+	//test	
+	/*	var responsestr='[{"itemId":"shouye","parentId":"shouye","parentName":"首页","itemName":"首页","Link":"https://www.baidu.com"},';
+		 responsestr+='{"itemId":"gszucheng","parentId":"gsgaikuang","parentName":"公司概况","itemName":"公司组成","Link":"https://www.baidu.com"},'; 
+		responsestr+='{"itemId":"ryfenbu","parentId":"gsgaikuang","parentName":"公司概况","itemName":"人员组成","Link":"https://www.baidu.com"},';  
+		responsestr+='{"itemId":"sxgongzuo","parentId":"rczhaopin","parentName":"人才招聘","itemName":"实习工作","Link":"https://www.baidu.com"}]';
+		//JSON.parse()
+		var response=JSON.parse(responsestr);
+	*/			
+		function bindLink(tool,str)
+		{
+			tool.click(
+			function()
+			{
+			//false来阻止冒泡，动态修改href没用，只能添加点击事件来跳转
+				window.location.href=str;
+				return false;
+			}
+			);
+		}
+		
+		function doMenu(res)
+		{
+			for(var i=0;i<res.length;i++)
+			{
+				console.log(res[i].parentId);
+				if(res[i].itemId==res[i].parentId)
+				{
+					var tool=$("#"+res[i].parentId.toString()).find("a");
+					var str=res[i].itemLink;
+					bindLink(tool,str);
+				}
+				else
+				{
+					//说明要绑定下拉菜单
+					if($("#"+res[i].parentId.toString()).find("div").length==0)
+					{
+						$("#"+res[i].parentId.toString()).append('<div class="dropdown-menu" style="color: #000000;">'+
+													'<a class="dropdown-item" href="'+res[i].itemLink+'">'+res[i].itemName+'</a>'+
+													'</div>');
+					}
+					else
+					{
+						$("#"+res[i].parentId.toString()).find("div").append('<a class="dropdown-item" href="'+res[i].itemLink+'">'+res[i].itemName+'</a>');
+						console.log(res[i].itemLink);
+					}
+				}
+			}
+			return true;
+		}
+		 
+		
+		
+		
+	/*	var responsestr='[{"fileId":"a2","filePath":"lunbo1.jpg","fileDescribe":"首页"},';
+			responsestr+='{"fileId":"a3","filePath":"lunbo2.jpg","fileDescribe":"首页"},';
+			responsestr+='{"fileId":"a1","filePath":"lunbo3.jpg","fileDescribe":"首页"}]';
+			//JSON.parse()
+			var response=JSON.parse(responsestr);
+		*/
+	/*	function doCarousel(res)
+		{
+			for(var i=0;i<res.length;i++)
+			{
+				if($("#picInner").find("div").eq(0).length==0)
+				{
+		
+					//首次
+				$("#picInner").append('<div class="carousel-item active" '+res[i].fileId+'>'+
+									  '<img src="'+res[i].filePath+'">'+
+									  '<div class="carousel-caption">'+
+									  '<p class="fontThree">'+res[i].fileDescribe+'</p>'+
+									  '</div>'+
+									  '</div>');
+				$("#zhishifu").append('<li data-target="#demo" data-slide-to='+i+' class="active"></li>');
+									  
+				}
+				else
+				{
+					$("#picInner").append('<div class="carousel-item" '+res[i].fileId+'>'+
+										  '<img src="'+res[i].filePath+'">'+
+										  '<div class="carousel-caption">'+
+										  '<p class="fontThree">'+res[i].fileDescribe+'</p>'+
+										  '</div>'+
+										  '</div>');
+										  $("#zhishifu").append('<li data-target="#demo" data-slide-to='+i+'></li>');
+				}
+			}
+		}*/
+		 function fuwuClikeEvent(srcStr1,srcStr2,content1,content2)
+		{
+			$("#fuwu1pic").attr('src',srcStr1);
+			$("#fuwu2pic").attr('src',srcStr2);
+			$("#fuwu1text").text(content1);
+			$("#fuwu2text").text(content2);
+		}
+		
+		$("#hjjiance").click(function(){
+		fuwuClikeEvent("Img/jiance1.jpg","Img/jiance2.jpg","服务检测包您满意","高效率高性价比");
+		}
+		); 
+		
+		$("#swfenxi").click(function(){
+		fuwuClikeEvent("Img/fenxi1.jpg","Img/fenxi2.jpg","高新技术前沿检测","顶级团队专业设备");
+		});
+	  
+		$("#wrjiance").click(
+		function(){
+		fuwuClikeEvent("Img/wuran1.jpg","Img/wuran2.jpg","实时监控保证安全","服务到位业界好评");
+		}
+		);
+	  
+	  };
+	  
+  </script>
+</head>
+<body>
+	<div id="header" class="align-items-lg-center row bccolorThree p-2 text-white fontOne font-weight-light">
+		<div class="col-md-2 ml-3">
+		当前登录:
+		<a id="login" href="#"><small>点我登录</small></a>
+		</div>
+		<div class="col-md-3 offset-md-6 mr-1 input-group h-75">	
+			<input type="text" class="form-control"/>
+			<div class="input-group-append">
+			<button class="btn bccolorOne" type="submit">Q</button> 
+			</div>
+		</div>
+	</div>
+	<nav class="navbar navbar-expand-sm fontOne pl-5 pr-5 bccolorTwo navbar-dark">
+		<a class="navbar-brand" href="#">
+		    <img src="Img/LOGO.png" alt="logo" style="width:90px;">
+		  </a>
+		 <ul class="navbar-nav" id="navDiv">
+		    <li class="nav-item" id="shouye">
+		      <a class="nav-link" href="javaScript:;" id="navbardrop" data-toggle="dropdown">
+				  首页</a>
+			   
+		    </li>
+			<li class="nav-item dropdown" id="gsgaikuang">
+			      <a class="nav-link " href="#" id="navbardrop" data-toggle="dropdown">
+			        公司概况
+			      </a>
+			</li>
+		    <li class="nav-item dropdown" id="zhkeji">
+		          <a class="nav-link " href="#" id="navbardrop" data-toggle="dropdown">
+		            智慧科技
+		          </a>
+		    </li>
+			<li class="nav-item dropdown" id="fwzhichi">
+			      <a class="nav-link " href="#" id="navbardrop" data-toggle="dropdown">
+			        服务支持
+			      </a>
+			</li>
+			<li class="nav-item dropdown" id="rczhaopin">
+			      <a class="nav-link " href="#" id="navbardrop" data-toggle="dropdown">
+			        人才招聘
+			      </a>
+			</li>
+			<li class="nav-item dropdown" id="gywomen">
+			      <a class="nav-link" href="#" id="navbardrop" data-toggle="dropdown">
+			        关于我们
+			      </a>
+			</li>
+		</ul>
+	</nav>
+	<script type="text/javascript">
+	 function doCarousel(res)
+		{
+			for(var i=0;i<res.length;i++)
+			{
+				if($("#picInner").find("div").eq(0).length==0)
+				{
+		
+					//首次
+				$("#picInner").append('<div class="carousel-item active" '+res[i].fileId+'>'+
+									  '<img src="'+res[i].filePath+'">'+
+									  '<div class="carousel-caption">'+
+									  '<p class="fontThree">'+res[i].fileDescribe+'</p>'+
+									  '</div>'+
+									  '</div>');
+				$("#zhishifu").append('<li data-target="#demo" data-slide-to='+i+' class="active"></li>');
+									  
+				}
+				else
+				{
+					$("#picInner").append('<div class="carousel-item" '+res[i].fileId+'>'+
+										  '<img src="'+res[i].filePath+'">'+
+										  '<div class="carousel-caption">'+
+										  '<p class="fontThree">'+res[i].fileDescribe+'</p>'+
+										  '</div>'+
+										  '</div>');
+										  $("#zhishifu").append('<li data-target="#demo" data-slide-to='+i+'></li>');
+				}
+			}
+		}
+	 
+	 $.ajax({
+			type:"post",
+			url:"getCarouselContent.do",
+			data:{},
+			dataType:"json",
+			success:function(response)
+			{
+				doCarousel(response);
+			}
+		});	
+	 </script>
+	<div id="demo" class="carousel slide" data-ride="carousel">
+	 
+	  <!-- 指示符 -->
+	  <ul class="carousel-indicators" id="zhishifu">
+	    
+	   
+	  </ul>
+	 
+	  <!-- 轮播图片 -->
+	  <div class="carousel-inner" id="picInner">
+	    
+	    
+		
+		</div>
+	   
+	  </div>
+	 
+	  <!-- 左右切换按钮 -->
+	  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+	    <span class="carousel-control-prev-icon"></span>
+	  </a>
+	  <a class="carousel-control-next" href="#demo" data-slide="next">
+	    <span class="carousel-control-next-icon"></span>
+	  </a>
+	</div>
+
+
+	<div id="introduce" class="mt-5 w-100">
+		<p class="text-center fontTwo">我们的服务</p>
+	</div>
+	
+	<div id="introduceNav" class="container mb-5">
+	<div class="border border-top-0 border-left-0 border-right-0 border-bottom d-flex text-center w-100 mb-5">
+	    <div class="p-5 flex-fill"><a class="fontThree" id="hjjiance" href="javaScript:;">环境检测</a></div>
+	    <div class="p-5 flex-fill"><a class="fontThree" id="swfenxi" href="javaScript:;">生物分析</a></div>
+	    <div class="p-5 flex-fill"><a class="fontThree" id="wrjiance" href="javaScript:;">污染监测</a></div>
+		<div class="p-5 flex-fill"><a class="fontThree" id="hjzhengming" href="javaScript:;">环检证明</a></div>
+	  </div>
+	  <div class="d-flex flex-row">
+		  <div class="border mr-5 ml-5 p-1" style="width:40%;">
+		      <img src="Img/jiance1.jpg" id="fuwu1pic" alt="John Doe" class="mr-1 mt-1 rounded d-flex mx-auto" style="width:90%; height: 70%;">
+		      <div class="media-body">
+		        <p id="fuwu1text" class="fontOne text-center text-black">环检检测包您满意</p>      
+		      </div>
+		    </div>
+			<div class="border  mr-5 ml-5 p-1" style="width:40%;">
+			    <img src="Img/jiance2.jpg" id="fuwu2pic" alt="John Doe" class="mr-1 mt-1 rounded d-flex mx-auto" style="width:90%; height: 70%;">
+			    <div class="media-body">
+			      <p id="fuwu2text" class="fontOne text-center text-black">高效率高性价比</p>      
+			    </div>
+			  </div>
+	  </div>
+	</div>
+	
+	<div id="bottomDiv" class="row bccolorThree colorOne mb-0 mr-0 ml-0 p-3">
+		<div class="col-2">
+			<a>联系我们:</a>
+			<br>
+			<a>&nbsp;tele:15975451557</a>
+			<br>
+			<a>&nbsp;Email:2077il@kunlun.com</a>
+		</div>
+		
+		<div class="col-4 border border-secondary border-left-0 border-bottom-0 border-top-0 border-right">
+		</div>
+			
+		<div class="col-3 offset-3">
+			<a>昆仑环检检测科技有限公司版权所有 © 2077 Copyrights all reserved ICP备xxxxx号-0x 网备xxxxxxxxxxxxxx号</a>
+		</div>
+	</div>
+	
+	<div class="bccolorTwo text-center text-white-50 mb-0 mr-0 mt-0 ml-0 p-1">
+		仅供个人学习，图标虚构公司不存在，图片来源网络，侵删致歉
+	</div>
+</body>
+</html>
